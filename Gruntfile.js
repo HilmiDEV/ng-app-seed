@@ -110,6 +110,7 @@ module.exports = function(grunt) {
         html2js: {
             app: {
                 options: {
+                    base: '<%= app_dir %>',
                     module: 'app.templates',
                     singleModule: true,
                     htmlmin: {
