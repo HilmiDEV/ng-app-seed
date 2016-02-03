@@ -3,12 +3,14 @@ module.exports = function(grunt) {
 
     grunt.initConfig({
 
-        app_name: 'app',
-        src_dir: grunt.option('src_dir') || './src',
-        lib_dir: grunt.option('lib_dir') || './lib',
+        app_dir: './app',
+        lib_dir: './lib',
         dist_dir: grunt.option('dist_dir') || './dist',
 
         clean: {
+            options: {
+                force: true
+            },
             pre: {
                 src: ['<%= dist_dir %>']
             },
@@ -16,7 +18,7 @@ module.exports = function(grunt) {
                 src: ['<%= dist_dir %>/app-templates.js']
             }
         },
-        
+
         jshint: {
             src: {
                 options: {
@@ -24,7 +26,7 @@ module.exports = function(grunt) {
                         angular: false,
                         ol: false,
                         proj4: false,
-                        moment: false,
+                        moment: false
                     },
                     bitwise: true,
                     browser: true,
@@ -42,7 +44,7 @@ module.exports = function(grunt) {
                     nonew: true,
                     undef: true
                 },
-                src: ['<%= src_dir %>/**/*.js']
+                src: ['<%= app_dir %>/**/*.js']
             }
         },
 
@@ -51,13 +53,13 @@ module.exports = function(grunt) {
                 files: [
                     {
                         src: ['index.html', 'config.json', '*.ico'],
-                        cwd: '<%= src_dir %>',
+                        cwd: '<%= app_dir %>',
                         dest: '<%= dist_dir %>',
                         expand: true
                     },
                     {
                         src: ['**'],
-                        cwd: '<%= src_dir %>/assets',
+                        cwd: '<%= app_dir %>/assets',
                         dest: '<%= dist_dir %>',
                         expand: true
                     }
@@ -100,7 +102,7 @@ module.exports = function(grunt) {
                     cleancss: true
                 },
                 files: {
-                    '<%= dist_dir %>/css/app.css': '<%= src_dir %>/app.less'
+                    '<%= dist_dir %>/css/app.css': '<%= app_dir %>/app.less'
                 }
             }
         },
@@ -108,7 +110,7 @@ module.exports = function(grunt) {
         html2js: {
             src: {
                 options: {
-                    module: '<%= app_name %>.templates',
+                    module: 'app.templates',
                     singleModule: true,
                     htmlmin: {
                         removeComments: true,
@@ -116,7 +118,7 @@ module.exports = function(grunt) {
                     }
                 },
                 files: {
-                    '<%= dist_dir %>/app-templates.js': '<%= src_dir %>/components/**/*.html'
+                    '<%= dist_dir %>/app-templates.js': '<%= app_dir %>/components/**/*.html'
                 }
             }
         },
@@ -129,9 +131,9 @@ module.exports = function(grunt) {
                 },
                 files: {
                     '<%= dist_dir %>/js/app.js': [
-                        '<%= src_dir %>/app.js',
-                        '<%= src_dir %>/shared/**/*.js',
-                        '<%= src_dir %>/components/**/*.js',
+                        '<%= app_dir %>/app.js',
+                        '<%= app_dir %>/shared/**/*.js',
+                        '<%= app_dir %>/components/**/*.js',
                         '<%= dist_dir %>/app-templates.js'
                     ]
                 }
@@ -177,7 +179,7 @@ module.exports = function(grunt) {
                     spawn: false
                 },
                 tasks: ['update'],
-                files: ['<%= src_dir %>/**']
+                files: ['<%= app_dir %>/**']
             }
         }
     });
