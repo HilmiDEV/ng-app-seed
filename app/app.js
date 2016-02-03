@@ -5,7 +5,9 @@
  * @namespace app
  * @requires ng
  * @requires ol
+ * @requires app.components.footer
  * @requires app.components.header
+ * @requires app.templates
  */
 angular.module('app', [
     // Official modules.
