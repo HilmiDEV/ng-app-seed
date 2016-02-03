@@ -20,7 +20,7 @@ module.exports = function(grunt) {
         },
 
         jshint: {
-            src: {
+            app: {
                 options: {
                     globals: {
                         angular: false,
@@ -49,7 +49,7 @@ module.exports = function(grunt) {
         },
 
         copy: {
-            src: {
+            app: {
                 files: [
                     {
                         src: ['index.html', 'config.json', '*.ico'],
@@ -96,7 +96,7 @@ module.exports = function(grunt) {
         },
 
         less: {
-            src: {
+            app: {
                 options: {
                     compress: true,
                     cleancss: true
@@ -108,7 +108,7 @@ module.exports = function(grunt) {
         },
 
         html2js: {
-            src: {
+            app: {
                 options: {
                     module: 'app.templates',
                     singleModule: true,
@@ -124,7 +124,7 @@ module.exports = function(grunt) {
         },
 
         concat: {
-            src: {
+            app: {
                 options: {
                     banner: '(function(window, angular){\'use strict\';',
                     footer: '})(window, window.angular);'
@@ -141,7 +141,7 @@ module.exports = function(grunt) {
         },
 
         ngAnnotate: {
-            src: {
+            app: {
                 files: {
                     '<%= dist_dir %>/js/app.js': '<%= dist_dir %>/js/app.js'
                 }
@@ -149,7 +149,7 @@ module.exports = function(grunt) {
         },
 
         uglify: {
-            src: {
+            app: {
                 files: {
                     '<%= dist_dir %>/js/app.js': '<%= dist_dir %>/js/app.js'
                 }
@@ -174,7 +174,7 @@ module.exports = function(grunt) {
         },
 
         watch: {
-            src: {
+            app: {
                 options: {
                     spawn: false
                 },
@@ -198,5 +198,5 @@ module.exports = function(grunt) {
     grunt.registerTask('build', ['clean:pre', 'jshint', 'copy', 'less', 'html2js', 'concat', 'ngAnnotate', 'uglify', 'clean:post']);
     grunt.registerTask('serve', ['connect:keepalive']);
     grunt.registerTask('dev', ['clean:pre', 'jshint', 'copy', 'less', 'html2js', 'concat', 'clean:post', 'connect:default', 'watch']);
-    grunt.registerTask('update', ['jshint:src', 'copy:src', 'less:src', 'html2js:src', 'concat:src', 'clean:post']);
+    grunt.registerTask('update', ['jshint:app', 'copy:app', 'less:app', 'html2js:app', 'concat:app', 'clean:post']);
 };
