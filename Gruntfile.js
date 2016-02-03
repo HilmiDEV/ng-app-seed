@@ -3,7 +3,7 @@ module.exports = function(grunt) {
 
     grunt.initConfig({
 
-        app_dir: './app',
+        src_dir: './src',
         lib_dir: './lib',
         dist_dir: grunt.option('dist_dir') || './dist',
 
@@ -20,7 +20,7 @@ module.exports = function(grunt) {
         },
 
         jshint: {
-            app: {
+            src: {
                 options: {
                     globals: {
                         angular: false,
@@ -44,22 +44,22 @@ module.exports = function(grunt) {
                     nonew: true,
                     undef: true
                 },
-                src: ['<%= app_dir %>/**/*.js']
+                src: ['<%= src_dir %>/**/*.js']
             }
         },
 
         copy: {
-            app: {
+            src: {
                 files: [
                     {
                         src: ['index.html', 'config.json', '*.ico'],
-                        cwd: '<%= app_dir %>',
+                        cwd: '<%= src_dir %>',
                         dest: '<%= dist_dir %>',
                         expand: true
                     },
                     {
                         src: ['**'],
-                        cwd: '<%= app_dir %>/assets',
+                        cwd: '<%= src_dir %>/assets',
                         dest: '<%= dist_dir %>',
                         expand: true
                     }
@@ -96,21 +96,21 @@ module.exports = function(grunt) {
         },
 
         less: {
-            app: {
+            src: {
                 options: {
                     compress: true,
                     cleancss: true
                 },
                 files: {
-                    '<%= dist_dir %>/css/app.css': '<%= app_dir %>/app.less'
+                    '<%= dist_dir %>/css/app.css': '<%= src_dir %>/app.less'
                 }
             }
         },
 
         html2js: {
-            app: {
+            src: {
                 options: {
-                    base: '<%= app_dir %>',
+                    base: '<%= src_dir %>',
                     module: 'app.templates',
                     singleModule: true,
                     htmlmin: {
@@ -119,22 +119,22 @@ module.exports = function(grunt) {
                     }
                 },
                 files: {
-                    '<%= dist_dir %>/app-templates.js': '<%= app_dir %>/components/**/*.html'
+                    '<%= dist_dir %>/app-templates.js': '<%= src_dir %>/components/**/*.html'
                 }
             }
         },
 
         concat: {
-            app: {
+            src: {
                 options: {
                     banner: '(function(window, angular){\'use strict\';',
                     footer: '})(window, window.angular);'
                 },
                 files: {
                     '<%= dist_dir %>/js/app.js': [
-                        '<%= app_dir %>/app.js',
-                        '<%= app_dir %>/shared/**/*.js',
-                        '<%= app_dir %>/components/**/*.js',
+                        '<%= src_dir %>/app.js',
+                        '<%= src_dir %>/shared/**/*.js',
+                        '<%= src_dir %>/components/**/*.js',
                         '<%= dist_dir %>/app-templates.js'
                     ]
                 }
@@ -142,7 +142,7 @@ module.exports = function(grunt) {
         },
 
         ngAnnotate: {
-            app: {
+            src: {
                 files: {
                     '<%= dist_dir %>/js/app.js': '<%= dist_dir %>/js/app.js'
                 }
@@ -150,7 +150,7 @@ module.exports = function(grunt) {
         },
 
         uglify: {
-            app: {
+            src: {
                 files: {
                     '<%= dist_dir %>/js/app.js': '<%= dist_dir %>/js/app.js'
                 }
@@ -175,12 +175,12 @@ module.exports = function(grunt) {
         },
 
         watch: {
-            app: {
+            src: {
                 options: {
                     spawn: false
                 },
                 tasks: ['update'],
-                files: ['<%= app_dir %>/**']
+                files: ['<%= src_dir %>/**']
             }
         }
     });
@@ -199,5 +199,5 @@ module.exports = function(grunt) {
     grunt.registerTask('build', ['clean:pre', 'jshint', 'copy', 'less', 'html2js', 'concat', 'ngAnnotate', 'uglify', 'clean:post']);
     grunt.registerTask('serve', ['connect:keepalive']);
     grunt.registerTask('dev', ['clean:pre', 'jshint', 'copy', 'less', 'html2js', 'concat', 'clean:post', 'connect:default', 'watch']);
-    grunt.registerTask('update', ['jshint:app', 'copy:app', 'less:app', 'html2js:app', 'concat:app', 'clean:post']);
+    grunt.registerTask('update', ['jshint:src', 'copy:src', 'less:src', 'html2js:src', 'concat:src', 'clean:post']);
 };
