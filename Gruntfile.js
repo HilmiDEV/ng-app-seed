@@ -52,7 +52,7 @@ module.exports = function(grunt) {
             src: {
                 files: [
                     {
-                        src: ['index.html', 'config.json', '*.ico'],
+                        src: ['*.html', '*.jsp', '*.json', '*.ico'],
                         cwd: '<%= src_dir %>',
                         dest: '<%= dist_dir %>',
                         expand: true
