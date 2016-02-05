@@ -11,7 +11,7 @@ Development Build
 ---------
 
 - run ```npm install``` to download NPM dependencies (once)
-- run ```grunt dev``` to generate the **dist/** directory, serve it on port **9000** and regenerate it when changes are detected in the **app/** directory
+- run ```grunt dev``` to generate the **dist/** directory, serve it on port **9000** and regenerate it when changes are detected in the **src/** directory
 
 Production Build
 ---------
