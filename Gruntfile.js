@@ -1,67 +1,87 @@
 module.exports = function(grunt) {
-    'use strict';
 
+    // Project configuration.
     grunt.initConfig({
 
+        // Configuration variables.
         src_dir: './src',
         lib_dir: './lib',
+        tmp_dir: './tmp',
         dist_dir: grunt.option('dist_dir') || './dist',
 
+        // Clean output and temporary directories.
         clean: {
             options: {
                 force: true
             },
             pre: {
-                src: ['<%= dist_dir %>']
+                src: '<%= dist_dir %>'
             },
             post: {
-                src: ['<%= dist_dir %>/app-templates.js']
+                src: '<%= tmp_dir %>'
             }
         },
 
+        // Analyze JavaScript code.
         jshint: {
+            options: {
+                jshintrc: true
+            },
             src: {
-                options: {
-                    globals: {
-                        angular: false,
-                        ol: false,
-                        proj4: false,
-                        moment: false
-                    },
-                    bitwise: true,
-                    browser: true,
-                    curly: true,
-                    devel: true,
-                    eqnull: true,
-                    eqeqeq: true,
-                    forin: true,
-                    freeze: true,
-                    immed: true,
-                    jquery: true,
-                    loopfunc: true,
-                    noarg: true,
-                    noempty: true,
-                    nonew: true,
-                    undef: true
-                },
                 src: ['<%= src_dir %>/**/*.js']
             }
         },
 
+        // Copy sources, dependencies and libraries.
         copy: {
             src: {
                 files: [
                     {
-                        src: ['*.html', '*.jsp', '*.json', '*.ico'],
-                        cwd: '<%= src_dir %>',
+                        src: ['index.html', 'view.jsp', 'config.json'],
                         dest: '<%= dist_dir %>',
-                        expand: true
+                        expand: true,
+                        cwd: '<%= src_dir %>'
                     },
                     {
                         src: ['**'],
-                        cwd: '<%= src_dir %>/assets',
                         dest: '<%= dist_dir %>',
-                        expand: true
+                        expand: true,
+                        cwd: '<%= src_dir %>/assets'
+                    }
+                ]
+            },
+            npm: {
+                files: [
+                    {
+                        src: [
+                            './node_modules/**/angular.min.js',
+                            './node_modules/jquery/dist/jquery.min.js',
+                            './node_modules/moment/min/moment.min.js',
+                            './node_modules/proj4/dist/proj4.js'
+                        ],
+                        dest: '<%= dist_dir %>/js',
+                        expand: true,
+                        flatten: true,
+                        ext: '.min.js',
+                        extDot: 'first'
+                    },
+                    {
+                        src: [
+                            './node_modules/font-awesome/css/font-awesome.min.css'
+                        ],
+                        dest: '<%= dist_dir %>/css',
+                        expand: true,
+                        flatten: true,
+                        ext: '.min.css',
+                        extDot: 'first'
+                    },
+                    {
+                        src: [
+                            './node_modules/font-awesome/fonts/*'
+                        ],
+                        dest: '<%= dist_dir %>/fonts',
+                        expand: true,
+                        flatten: true
                     }
                 ]
             },
@@ -95,35 +115,43 @@ module.exports = function(grunt) {
             }
         },
 
+        // Compile LESS into CSS.
         less: {
+            options: {
+                compress: true,
+                cleancss: true
+            },
             src: {
-                options: {
-                    compress: true,
-                    cleancss: true
-                },
                 files: {
                     '<%= dist_dir %>/css/app.css': '<%= src_dir %>/app.less'
                 }
             }
         },
 
+        // Transform HTML templates into an Angular module.
         html2js: {
+            options: {
+                singleModule: true,
+                htmlmin: {
+                    removeComments: true,
+                    collapseWhitespace: true
+                }
+            },
             src: {
                 options: {
                     base: '<%= src_dir %>',
-                    module: 'app.templates',
-                    singleModule: true,
-                    htmlmin: {
-                        removeComments: true,
-                        collapseWhitespace: true
-                    }
+                    module: 'app.templates'
                 },
                 files: {
-                    '<%= dist_dir %>/app-templates.js': '<%= src_dir %>/components/**/*.html'
+                    '<%= tmp_dir %>/app-templates.js': [
+                        '<%= src_dir %>/components/**/*.html',
+                        '<%= src_dir %>/shared/**/*.html'
+                    ]
                 }
             }
         },
 
+        // Create a single JavaScript file.
         concat: {
             src: {
                 options: {
@@ -135,12 +163,13 @@ module.exports = function(grunt) {
                         '<%= src_dir %>/app.js',
                         '<%= src_dir %>/shared/**/*.js',
                         '<%= src_dir %>/components/**/*.js',
-                        '<%= dist_dir %>/app-templates.js'
+                        '<%= tmp_dir %>/app-templates.js'
                     ]
                 }
             }
         },
 
+        // Prepare Angular code for obfuscation.
         ngAnnotate: {
             src: {
                 files: {
@@ -149,6 +178,7 @@ module.exports = function(grunt) {
             }
         },
 
+        // Obfuscate JavaScript code.
         uglify: {
             src: {
                 files: {
@@ -157,6 +187,7 @@ module.exports = function(grunt) {
             }
         },
 
+        // Serve the application on "localhost".
         connect: {
             options: {
                 port: 9000,
@@ -174,17 +205,19 @@ module.exports = function(grunt) {
             }
         },
 
+        // Observe source changes to automatically update the output directory.
         watch: {
+            options: {
+                spawn: false
+            },
             src: {
-                options: {
-                    spawn: false
-                },
                 tasks: ['update'],
                 files: ['<%= src_dir %>/**']
             }
         }
     });
 
+    // Load plugins that provide tasks.
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-connect');
@@ -196,6 +229,8 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-html2js');
     grunt.loadNpmTasks('grunt-ng-annotate');
 
+    // Final tasks.
+    grunt.registerTask('default', ['build']);
     grunt.registerTask('build', ['clean:pre', 'jshint', 'copy', 'less', 'html2js', 'concat', 'ngAnnotate', 'uglify', 'clean:post']);
     grunt.registerTask('serve', ['connect:keepalive']);
     grunt.registerTask('dev', ['clean:pre', 'jshint', 'copy', 'less', 'html2js', 'concat', 'clean:post', 'connect:default', 'watch']);

@@ -1,0 +1,23 @@
+{
+  "globals": {
+    "angular": false,
+    "ol": false,
+    "proj4": false,
+    "moment": false
+  },
+  "bitwise": true,
+  "browser": true,
+  "curly": true,
+  "devel": true,
+  "eqnull": true,
+  "eqeqeq": true,
+  "forin": true,
+  "freeze": true,
+  "immed": true,
+  "jquery": true,
+  "loopfunc": true,
+  "noarg": true,
+  "noempty": true,
+  "nonew": true,
+  "undef": true
+}
