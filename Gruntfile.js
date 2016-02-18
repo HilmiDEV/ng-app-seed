@@ -27,9 +27,7 @@ module.exports = function(grunt) {
             options: {
                 jshintrc: true
             },
-            src: {
-                src: ['<%= src_dir %>/**/*.js']
-            }
+            src: '<%= src_dir %>/**/*.js'
         },
 
         // Copy sources, dependencies and libraries.
