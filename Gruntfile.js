@@ -54,7 +54,7 @@ module.exports = function(grunt) {
                 files: [
                     {
                         src: [
-                            './node_modules/**/angular.min.js',
+                            './node_modules/angular/angular.min.js',
                             './node_modules/jquery/dist/jquery.min.js',
                             './node_modules/moment/min/moment.min.js',
                             './node_modules/proj4/dist/proj4.js'
