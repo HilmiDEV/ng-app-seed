@@ -43,7 +43,7 @@ module.exports = function(grunt) {
                         cwd: '<%= src_dir %>'
                     },
                     {
-                        src: ['**'],
+                        src: '**',
                         dest: '<%= dist_dir %>',
                         expand: true,
                         cwd: '<%= src_dir %>/assets'
@@ -88,25 +88,25 @@ module.exports = function(grunt) {
             lib: {
                 files: [
                     {
-                        src: ['<%= lib_dir %>/*/js/*.js'],
+                        src: '<%= lib_dir %>/*/js/*.js',
                         dest: '<%= dist_dir %>/js',
                         expand: true,
                         flatten: true
                     },
                     {
-                        src: ['<%= lib_dir %>/*/css/*.css'],
+                        src: '<%= lib_dir %>/*/css/*.css',
                         dest: '<%= dist_dir %>/css',
                         expand: true,
                         flatten: true
                     },
                     {
-                        src: ['<%= lib_dir %>/*/fonts/*'],
+                        src: '<%= lib_dir %>/*/fonts/*',
                         dest: '<%= dist_dir %>/fonts',
                         expand: true,
                         flatten: true
                     },
                     {
-                        src: ['<%= lib_dir %>/*/img/*'],
+                        src: '<%= lib_dir %>/*/img/*',
                         dest: '<%= dist_dir %>/img',
                         expand: true,
                         flatten: true
@@ -212,7 +212,7 @@ module.exports = function(grunt) {
             },
             src: {
                 tasks: ['update'],
-                files: ['<%= src_dir %>/**']
+                files: '<%= src_dir %>/**'
             }
         }
     });
