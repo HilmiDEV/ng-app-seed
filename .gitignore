@@ -8,4 +8,5 @@ node_modules/
 
 # Build
 dist/
-tmp/
+npm-debug.log
+temp/

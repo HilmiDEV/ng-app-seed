@@ -13,7 +13,7 @@ angular.module('app', [
     // Official modules.
     'ng',
     // Library modules.
-    'ol',
+    'olMap',
     // Application modules.
     'app.components.footer',
     'app.components.header',
