@@ -134,7 +134,7 @@ module.exports = function(grunt) {
                         '<%= src_dir %>/app.js',
                         '<%= src_dir %>/shared/**/*.js',
                         '<%= src_dir %>/components/**/*.js',
-                        '<%= tmp_dir %>/app-templates.js'
+                        '<%= temp_dir %>/app-templates.js'
                     ]
                 }
             }
